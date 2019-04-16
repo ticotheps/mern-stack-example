@@ -66,7 +66,7 @@ router.delete('/:id', (req, res) => {
 });
 
 
-// @route   PUT request to 'api/items'
+// @route   PUT request to 'api/items/:id/update'
 // @desc    Updates an item
 // @access  Public 
 router.put('/:id/update', (req, res) => {
