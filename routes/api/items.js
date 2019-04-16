@@ -10,7 +10,8 @@ const Item = require('../../models/Item');
 // @desc    Retrieves all items
 // @access  Public 
 router.get('/', (req, res) => {
-    Item.find()
+    Item
+        .find()
         .sort({ date: -1 }) // sorts all retrieved items by date; "-1" = descending order, "1" = ascending order 
         .then(items => {
             res.json(items)
@@ -56,7 +57,7 @@ router.delete('/:id', (req, res) => {
                     res.json({ success: true });
                 })
                 .catch(err => {
-                    res.status(404).json({ message: "Item was not deleted because it could not be found"});
+                    res.status(404).json({ message: "Item was not deleted because it could not be found" });
                 });
         })
         .catch(err => {
@@ -64,5 +65,31 @@ router.delete('/:id', (req, res) => {
         });
 });
 
+
+// @route   PUT request to 'api/items'
+// @desc    Updates an item
+// @access  Public 
+router.put('/:id/update', (req, res) => {
+    Item
+        .findById(req.params.id)
+        .then((item, err) => {
+            if (!item) {
+
+                res.status(404).json({ message: "Item was not updated because it could not be found" });
+            } else {
+
+                item.name = req.body.name;
+
+                item
+                    .save()
+                    .then(item => {
+                        res.status(202).json({ message: "Item was updated successfully" });
+                    })
+                    .catch(err => {
+                        res.status(400).json({ message: "Something went wrong while trying to update this item" });
+                    });
+            }
+        });
+});
 
 module.exports = router;
