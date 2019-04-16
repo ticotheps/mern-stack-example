@@ -43,4 +43,26 @@ router.post('/', (req, res) => {
 });
 
 
+// @route   DELETE request to 'api/items/:id'
+// @desc    Deletes an item
+// @access  Public 
+router.delete('/:id', (req, res) => {
+    Item
+        .findById(req.params.id)
+        .then(item => {
+            item
+                .remove()
+                .then(() => {
+                    res.json({ success: true });
+                })
+                .catch(err => {
+                    res.status(404).json({ message: "Item was not deleted because it could not be found"});
+                });
+        })
+        .catch(err => {
+            res.status(500).json({ message: "Something went wrong while trying to delete that item from the database"});
+        });
+});
+
+
 module.exports = router;
