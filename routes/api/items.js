@@ -66,10 +66,10 @@ router.delete('/:id', (req, res) => {
 });
 
 
-// @route   PUT request to 'api/items/:id/update'
+// @route   POST request to 'api/items/:id/update'
 // @desc    Updates an item
 // @access  Public 
-router.put('/:id/update', (req, res) => {
+router.post('/:id/update', (req, res) => {
     Item
         .findById(req.params.id)
         .then((item, err) => {
